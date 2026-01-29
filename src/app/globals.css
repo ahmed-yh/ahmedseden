@@ -1,0 +1,467 @@
+/* Google Fonts imports must come before Tailwind */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Literata:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+@import "tailwindcss";
+@import "./textures.css";
+
+/* 
+ * Design Tokens for Digital Garden Blog
+ * Combining Gwern's archival typography with Brad Woods' warm aesthetic
+ */
+
+@theme {
+  /* Color Palette - Warm paper tones with high contrast for readability */
+  --color-paper: #FAF8F5;
+  --color-paper-dark: #1A1915;
+  --color-ink: #2D2A24;
+  --color-ink-dark: #E8E4DD;
+  --color-ink-muted: #6B6459;
+  --color-ink-muted-dark: #9B9488;
+  --color-sepia: #C4A77D;
+  --color-sepia-dark: #A68B5B;
+  --color-border: #E5E0D8;
+  --color-border-dark: #3D3A33;
+  --color-card: #FFFFFF;
+  --color-card-dark: #252219;
+  --color-overlay: rgba(45, 42, 36, 0.8);
+  --color-overlay-dark: rgba(26, 25, 21, 0.9);
+
+  /* Brad Woods Digital Garden colors */
+  --color-tan-bg: #D4C5AD;
+  --color-tan-bg-dark: #2B2619;
+
+  /* Typography - Literata for content, Inter for UI */
+  --font-serif: 'Literata', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Spacing Scale - Comfortable reading rhythm */
+  --spacing-prose: clamp(1rem, 2vw, 1.5rem);
+
+  /* Reading Measure - Gwern-style optimal line length */
+  --measure-prose: 70ch;
+  --measure-narrow: 65ch;
+
+  /* Shadows - Soft, paper-like */
+  --shadow-card: 0 4px 20px rgba(45, 42, 36, 0.08);
+  --shadow-card-hover: 0 8px 30px rgba(45, 42, 36, 0.12);
+  --shadow-card-dark: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+  /* Transitions */
+  --transition-base: 200ms ease-out;
+  --transition-slow: 400ms ease-out;
+}
+
+/* Base Layer - Global resets and defaults */
+@layer base {
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    font-family: var(--font-serif);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Dark mode */
+  .dark body {
+    background-color: var(--color-paper-dark);
+    color: var(--color-ink-dark);
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    outline: 2px solid var(--color-sepia);
+    outline-offset: 2px;
+  }
+
+  /* Selection styling */
+  ::selection {
+    background-color: var(--color-sepia);
+    color: var(--color-paper);
+  }
+
+  .dark ::selection {
+    background-color: var(--color-sepia-dark);
+    color: var(--color-paper-dark);
+  }
+}
+
+/* Components Layer - Reusable component styles */
+@layer components {
+
+  /* Gwern-style prose typography */
+  .prose-gwern {
+    max-width: var(--measure-prose);
+    font-family: var(--font-serif);
+    font-size: clamp(1rem, 1vw + 0.875rem, 1.125rem);
+    line-height: 1.75;
+  }
+
+  .prose-gwern h1,
+  .prose-gwern h2,
+  .prose-gwern h3 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+    scroll-margin-top: 100px;
+  }
+
+  .prose-gwern h1 {
+    font-size: 2.25em;
+    line-height: 1.2;
+  }
+
+  .prose-gwern h2 {
+    font-size: 1.75em;
+    line-height: 1.3;
+  }
+
+  .prose-gwern h3 {
+    font-size: 1.375em;
+    line-height: 1.4;
+  }
+
+  .prose-gwern p {
+    margin-bottom: 1.5em;
+  }
+
+  .prose-gwern a {
+    color: var(--color-sepia-dark);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: color var(--transition-base);
+  }
+
+  .prose-gwern a:hover {
+    color: var(--color-sepia);
+  }
+
+  .dark .prose-gwern a {
+    color: var(--color-sepia);
+  }
+
+  .dark .prose-gwern a:hover {
+    color: var(--color-sepia-dark);
+  }
+
+  .prose-gwern blockquote {
+    border-left: 3px solid var(--color-sepia);
+    padding-left: 1.5em;
+    font-style: italic;
+    color: var(--color-ink-muted);
+    margin: 1.5em 0;
+  }
+
+  .dark .prose-gwern blockquote {
+    color: var(--color-ink-muted-dark);
+  }
+
+  .prose-gwern code {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.875em;
+    background-color: var(--color-border);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+  }
+
+  .dark .prose-gwern code {
+    background-color: var(--color-border-dark);
+  }
+
+  .prose-gwern pre {
+    background-color: var(--color-card-dark);
+    color: var(--color-ink-dark);
+    padding: 1.5em;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5em 0;
+  }
+
+  .prose-gwern pre code {
+    background: none;
+    padding: 0;
+  }
+
+  /* Active item indicator - Scribble animation */
+  .animate-scribble {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: scribble 0.4s ease-out forwards;
+  }
+
+  @keyframes scribble {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* Organic animations */
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+      transform: translateY(-10px) rotate(2deg);
+    }
+  }
+
+  @keyframes float-delayed {
+
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+      transform: translateY(-15px) rotate(-2deg);
+    }
+  }
+
+  @keyframes wiggle {
+
+    0%,
+    100% {
+      transform: rotate(-3deg);
+    }
+
+    50% {
+      transform: rotate(3deg);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float-delayed 7s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+
+  .animate-wiggle {
+    animation: wiggle 3s ease-in-out infinite;
+  }
+
+  /* Card component base */
+  .card {
+    background-color: var(--color-card);
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .dark .card {
+    background-color: var(--color-card-dark);
+    box-shadow: var(--shadow-card-dark);
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* Button styles */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all var(--transition-base);
+    cursor: pointer;
+  }
+
+  .btn-outline {
+    border: 2px solid var(--color-ink);
+    background: transparent;
+    color: var(--color-ink);
+  }
+
+  .btn-outline:hover {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    transform: translateY(-2px);
+  }
+
+  .dark .btn-outline {
+    border-color: var(--color-ink-dark);
+    color: var(--color-ink-dark);
+  }
+
+  .dark .btn-outline:hover {
+    background-color: var(--color-ink-dark);
+    color: var(--color-paper-dark);
+  }
+}
+
+/* Utilities Layer */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  .font-sans {
+    font-family: var(--font-sans);
+  }
+
+  /* Brad Woods-style post page background */
+  .post-page-bg {
+    background-color: var(--color-tan-bg);
+    min-height: 100vh;
+  }
+
+  .dark .post-page-bg {
+    background-color: var(--color-tan-bg-dark);
+  }
+
+  /* Split layout container */
+  .post-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    min-height: 100vh;
+    border-top: 1px solid var(--color-ink);
+    /* Top border for the whole section */
+  }
+
+  /* Sidebar - Fixed and persistent */
+  .toc-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid var(--color-ink);
+    padding: 2rem;
+    background-color: var(--color-tan-bg);
+  }
+
+  .dark .toc-sidebar {
+    background-color: var(--color-tan-bg-dark);
+    border-right-color: var(--color-ink-dark);
+  }
+
+  /* Main Content - Scrollable */
+  .post-content-wrapper {
+    min-width: 0;
+  }
+
+  .post-content {
+    max-width: 800px;
+    padding: 4rem 4rem 8rem 4rem;
+  }
+
+  @media (max-width: 1024px) {
+    .post-layout {
+      grid-template-columns: 1fr;
+      border-top: none;
+    }
+
+    .toc-sidebar {
+      display: none;
+      /* Hidden on mobile, replaced by MobileTOC */
+    }
+
+    .post-content {
+      padding: 2rem 1.5rem;
+      /* Reduced padding for mobile */
+    }
+  }
+
+  /* TOC Styling to match reference */
+  .toc-header {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    color: var(--color-ink);
+  }
+
+  .dark .toc-header {
+    color: var(--color-ink-dark);
+  }
+
+  .toc-separator {
+    border: none;
+    border-top: 1px dashed var(--color-ink);
+    margin-bottom: 1.5rem;
+    opacity: 0.5;
+  }
+
+  .toc-nav {
+    /* Reset previous styles */
+    background: transparent;
+    border: none;
+    padding: 0;
+    backdrop-filter: none;
+  }
+
+  /* Connecting horizontal lines for H2 */
+  .prose-gwern h2 {
+    position: relative;
+    padding-top: 2rem;
+    margin-top: 4rem;
+    margin-left: -4rem;
+    /* Pull flush to the border */
+    padding-left: 4rem;
+    /* Push content back */
+    border-top: 1px solid var(--color-ink);
+    /* Extend line infinitely to the right */
+    width: 200%;
+    max-width: 90vw;
+    /* Prevent horizontal scrollbar issues */
+  }
+
+  .dark .prose-gwern h2 {
+    border-top-color: var(--color-ink-dark);
+  }
+
+  /* Mobile adjustment for h2 lines */
+  @media (max-width: 1024px) {
+    .prose-gwern h2 {
+      margin-left: -2rem;
+      padding-left: 2rem;
+      width: calc(100% + 2rem);
+    }
+  }
+}

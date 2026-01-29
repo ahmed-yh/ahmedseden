@@ -1,0 +1,37 @@
+backend:
+  name: git-gateway
+  branch: main
+  commit_messages:
+    create: 'Create {{collection}} “{{slug}}”'
+    update: 'Update {{collection}} “{{slug}}”'
+    delete: 'Delete {{collection}} “{{slug}}”'
+    uploadMedia: '[skip ci] Upload “{{path}}”'
+    deleteMedia: '[skip ci] Delete “{{path}}”'
+
+local_backend: true
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "writings"
+    label: "Writings"
+    folder: "content/writings"
+    create: true
+    # Force new files to be .mdx so they support Scribbles, Callouts, and Components
+    extension: "mdx"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string"}
+      - {label: "Planted Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false}
+      - {label: "Tended Date (Last Modified)", name: "tendedDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false}
+      - {label: "Status", name: "status", widget: "select", options: ["sprout", "budding", "evergreen"], default: "sprout"}
+      - {label: "Intended Audience", name: "intendedAudience", widget: "string", default: "SOFTWARE ENGINEERS"}
+      - {label: "Hits (%)", name: "hits", widget: "number", default: 0, required: false}
+      - {label: "Tags", name: "tags", widget: "list"}
+      - {label: "Backlinks", name: "backlinks", widget: "relation", collection: "writings", search_fields: ["title", "slug"], value_field: "slug", display_fields: ["title"], multiple: true, required: false}
+      - {label: "Excerpt", name: "excerpt", widget: "text"}
+      - {label: "Featured Image", name: "image", widget: "image", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
