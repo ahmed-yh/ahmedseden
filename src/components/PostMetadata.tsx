@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+// Imports removed as they are not used
 
 /**
  * PostMetadata Component

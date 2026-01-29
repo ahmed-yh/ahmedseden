@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 
 /**
@@ -76,8 +77,7 @@ export default function RootLayout({
             `,
           }}
         />
-        />
-        <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+        <Script src="https://identity.netlify.com/v1/netlify-identity-widget.js" strategy="lazyOnload" />
       </head>
       <body className="antialiased">{children}</body>
     </html>

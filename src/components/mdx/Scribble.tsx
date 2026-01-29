@@ -7,8 +7,6 @@
  * Usage: <Scribble type="underline|circle|arrow" />
  */
 
-import { useEffect, useRef, useState } from 'react';
-
 
 interface ScribbleProps {
   type: 'star' | 'loop' | 'underline' | 'arrow' | 'tape' | 'highlight';

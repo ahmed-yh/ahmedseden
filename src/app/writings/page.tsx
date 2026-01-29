@@ -61,7 +61,7 @@ export default function WritingsPage() {
 
                     <div className="prose prose-lg dark:prose-invert font-serif leading-relaxed text-[var(--color-ink)] dark:text-[var(--color-ink-dark)] mx-auto text-center">
                         <p className="mb-6 first-letter:text-5xl first-letter:font-serif first-letter:font-bold first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8]">
-                            Hello, I'm Ahmed. Probably like you, I'm that person who is constantly coming up with lots of little project ideas. Whether that be ideas for apps, websites, games, businesses; whatever. I have them all stored on a list in my phone, and I know you probably have one of those lists too.
+                            Hello, I&apos;m Ahmed. Probably like you, I&apos;m that person who is constantly coming up with lots of little project ideas. Whether that be ideas for apps, websites, games, businesses; whatever. I have them all stored on a list in my phone, and I know you probably have one of those lists too.
                         </p>
                         <p className="mb-6">
                             The problem is I never seem to get round to completing them, or even starting them for that matter. The list just grows bigger and bigger.
