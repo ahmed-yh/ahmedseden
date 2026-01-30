@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { getAllWritingSlugs, getWritingBySlug, getRelatedWritings } from '@/lib/content';
+import { getWritingBySlug, getRelatedWritings, getAllWritings } from '@/lib/content';
 import { formatDate } from '@/lib/utils';
+import { Writing } from '@/lib/types';
 import Footer from '@/components/Footer';
 import TableOfContents from '@/components/TableOfContents';
 import PostMetadata from '@/components/PostMetadata';
@@ -15,17 +16,8 @@ import MobileTOC from '@/components/MobileTOC';
 
 /**
  * Writing Page
- * 
- * Brad Woods-style individual post page with:
- * - Two-column layout (TOC sidebar + content)
- * - Post metadata display
- * - Tan/beige background
- * - Table of contents navigation
- * 
- * Statically generated at build time
  */
 
-// MDX components for server component rendering
 const mdxComponents = {
   Callout,
   Footnote,
@@ -38,8 +30,8 @@ interface WritingPageProps {
 
 // Generate static params for all writings
 export async function generateStaticParams() {
-  const slugs = getAllWritingSlugs();
-  return slugs.map((slug) => ({ slug }));
+  const writings = getAllWritings();
+  return writings.map((writing: Writing) => ({ slug: writing.frontmatter.slug }));
 }
 
 // Generate metadata for SEO
@@ -48,8 +40,9 @@ export async function generateMetadata({
 }: WritingPageProps): Promise<Metadata> {
   const { slug } = await params;
   const writing = getWritingBySlug(slug);
+  const isPublic = writing?.frontmatter.isPublic;
 
-  if (!writing) {
+  if (!writing || !isPublic) {
     return {
       title: 'Not Found',
     };
@@ -82,7 +75,7 @@ export default async function WritingPage({ params }: WritingPageProps) {
   const { slug } = await params;
   const writing = getWritingBySlug(slug);
 
-  if (!writing) {
+  if (!writing || !writing.frontmatter.isPublic) {
     notFound();
   }
 

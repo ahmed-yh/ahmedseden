@@ -10,7 +10,7 @@
  * - Debounced input for performance
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search as SearchIcon, X } from 'lucide-react';
 import { debounce } from '@/lib/utils';
@@ -61,27 +61,34 @@ export default function Search({ searchIndex, onSelect }: SearchProps) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Debounced search - wrapped in useCallback for stable reference
-  const performSearch = useCallback((searchQuery: string) => {
-    const debouncedSearch = debounce(async (q: string) => {
-      if (!q.trim()) {
-        setResults([]);
+  // Create a memoized debounced search function
+  const debouncedSearch = useMemo(
+    () =>
+      debounce(async (searchQuery: string) => {
+        if (!searchQuery.trim()) {
+          setResults([]);
+          setIsLoading(false);
+          return;
+        }
+
+        const searchResults = await searchWritings(searchQuery);
+        setResults(searchResults);
         setIsLoading(false);
-        return;
-      }
+      }, 300),
+    []
+  );
 
-      const searchResults = await searchWritings(q);
-      setResults(searchResults);
-      setIsLoading(false);
-    }, 200);
-
-    debouncedSearch(searchQuery);
-  }, []);
+  const performSearch = useCallback(
+    (searchQuery: string) => {
+      setIsLoading(true);
+      debouncedSearch(searchQuery);
+    },
+    [debouncedSearch]
+  );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
-    setIsLoading(true);
     performSearch(value);
   };
 

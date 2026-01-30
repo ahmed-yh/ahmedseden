@@ -44,6 +44,7 @@ export function getWritingBySlug(slug: string): Writing | null {
 
   const frontmatter: WritingFrontmatter = {
     title: data.title || 'Untitled',
+    author: data.author || 'Ahmed Yassine',
     date: data.date || new Date().toISOString().split('T')[0],
     tendedDate: data.tendedDate,
     status: data.status || 'sprout',
@@ -52,6 +53,7 @@ export function getWritingBySlug(slug: string): Writing | null {
     tags: data.tags || [],
     excerpt: data.excerpt || '',
     image: data.image,
+    isPublic: data.isPublic === 'private' ? false : true,
     slug: data.slug || slug,
     backlinks: data.backlinks || [],
   };
@@ -71,7 +73,7 @@ export function getAllWritings(): Writing[] {
   const slugs = getAllWritingSlugs();
   const writings = slugs
     .map((slug) => getWritingBySlug(slug))
-    .filter((writing): writing is Writing => writing !== null)
+    .filter((writing): writing is Writing => writing !== null && writing.frontmatter.isPublic)
     .sort((a, b) =>
       new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
     );

@@ -22,16 +22,19 @@ collections:
     extension: "mdx"
     format: "frontmatter"
     slug: "{{slug}}"
+    summary: "{{title}} | Visibility: {{isPublic}}"
     fields:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Slug", name: "slug", widget: "string"}
+      - {label: "Author", name: "author", widget: "string", default: "Ahmed Yassine", required: false}
       - {label: "Planted Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false}
       - {label: "Tended Date (Last Modified)", name: "tendedDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false}
-      - {label: "Status", name: "status", widget: "select", options: ["sprout", "budding", "evergreen"], default: "sprout"}
-      - {label: "Intended Audience", name: "intendedAudience", widget: "string", default: "SOFTWARE ENGINEERS"}
+      - {label: "Status", name: "status", widget: "select", options: ["sprout", "budding", "evergreen"], default: "sprout", required: false}
+      - {label: "Visibility", name: "isPublic", widget: "select", options: ["public", "private"], default: "public"}
+      - {label: "Intended Audience", name: "intendedAudience", widget: "string", default: "SOFTWARE ENGINEERS", required: false}
       - {label: "Hits (%)", name: "hits", widget: "number", default: 0, required: false}
-      - {label: "Tags", name: "tags", widget: "list"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
       - {label: "Backlinks", name: "backlinks", widget: "relation", collection: "writings", search_fields: ["title", "slug"], value_field: "slug", display_fields: ["title"], multiple: true, required: false}
-      - {label: "Excerpt", name: "excerpt", widget: "text"}
+      - {label: "Excerpt", name: "excerpt", widget: "text", required: false}
       - {label: "Featured Image", name: "image", widget: "image", required: false}
-      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Body", name: "body", widget: "markdown", required: false}

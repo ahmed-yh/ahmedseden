@@ -4,6 +4,7 @@
 
 export interface WritingFrontmatter {
   title: string;
+  author?: string;
   date: string;
   tendedDate?: string;
   status?: 'sprout' | 'budding' | 'evergreen';
@@ -12,6 +13,7 @@ export interface WritingFrontmatter {
   tags: string[];
   excerpt: string;
   image?: string;
+  isPublic: boolean;
   slug: string;
   backlinks?: string[];
 }
@@ -28,6 +30,7 @@ export interface SearchResult {
   title: string;
   excerpt: string;
   tags: string[];
+  isPublic?: boolean;
 }
 
 export interface SearchIndex {
