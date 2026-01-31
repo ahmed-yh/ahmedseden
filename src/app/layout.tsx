@@ -52,6 +52,11 @@ export const metadata: Metadata = {
   },
 };
 
+import { MusicProvider } from '@/components/music/MusicContext';
+import MusicManager from '@/components/music/MusicManager';
+import MusicPopup from '@/components/music/MusicPopup';
+import VinylPlayer from '@/components/music/VinylPlayer';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -60,26 +65,22 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Inline script to prevent FOUC for dark mode */}
+        {/* Force Dark Mode - No script needed, just class on HTML or default variables */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('theme');
-                  if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.add('light');
-                  }
-                } catch (e) {}
-              })();
-            `,
+            __html: `document.documentElement.classList.add('dark');`
           }}
         />
         <Script src="https://identity.netlify.com/v1/netlify-identity-widget.js" strategy="lazyOnload" />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <MusicProvider>
+          <MusicManager />
+          <MusicPopup />
+          <VinylPlayer />
+          {children}
+        </MusicProvider>
+      </body>
     </html>
   );
 }
