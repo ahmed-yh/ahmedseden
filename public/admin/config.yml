@@ -25,7 +25,7 @@ collections:
     summary: "{{title}} | Visibility: {{isPublic}}"
     fields:
       - {label: "Title", name: "title", widget: "string"}
-      - {label: "Slug", name: "slug", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string", required: true, hint: "This will be used as the filename and URL (e.g., 'my-post' becomes my-post.mdx and /writings/my-post)"}
       - {label: "Author", name: "author", widget: "string", default: "Ahmed Yassine", required: false}
       - {label: "Planted Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false}
       - {label: "Tended Date (Last Modified)", name: "tendedDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false}
